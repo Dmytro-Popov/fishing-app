@@ -75,6 +75,47 @@
             font-size: 64px;
             margin-bottom: 20px;
         }
+        .sort-btn {
+            padding: 8px 16px;
+            background: #f3f4f6;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .sort-btn:hover {
+            background: #e5e7eb;
+        }
+        .sort-btn.active {
+            background: #2563eb;
+            color: white;
+            border-color: #1d4ed8;
+        }
+        /* Кнопки сортировки */
+        .sort-btn {
+            padding: 8px 14px;
+            background: #f3f4f6;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            display: inline-block;
+        }
+        .sort-btn:hover {
+            background: #e5e7eb;
+            transform: translateY(-1px);
+        }
+        .sort-btn.active {
+            background: #2563eb;
+            color: white;
+            border-color: #1d4ed8;
+        }
     </style>
 </head>
 <body>

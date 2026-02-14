@@ -3,15 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\FishCatch;
 
 class CatchController extends Controller
 {
     /**
      * Display a listing of catches.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('catches.index');
+        // Получаем параметр сортировки из URL (?sort=weight)
+    $sortBy = $request->input('sort', 'created_at'); // По умолчанию created_at
+    $sortOrder = $request->input('order', 'desc');   // По умолчанию desc (новые первые)
+
+    // Валидация параметров (защита от SQL injection)
+    $allowedSorts = ['created_at', 'date', 'weight', 'species'];
+    $allowedOrders = ['asc', 'desc'];
+
+    if (!in_array($sortBy, $allowedSorts)) {
+        $sortBy = 'created_at';
+    }
+
+    if (!in_array($sortOrder, $allowedOrders)) {
+        $sortOrder = 'desc';
+    }
+
+    // Получаем уловы с сортировкой
+    $catches = FishCatch::orderBy($sortBy, $sortOrder)->get();
+
+    return view('catches.index', [
+        'catches' => $catches,
+        'currentSort' => $sortBy,
+        'currentOrder' => $sortOrder,
+    ]);
     }
 
     /**
@@ -27,7 +51,21 @@ class CatchController extends Controller
      */
     public function store(Request $request)
     {
-        return 'Catch saved! (temporary message)';
+        // Валидация данных
+    $validated = $request->validate([
+        'date' => 'required|date',
+        'location' => 'required|string|max:255',
+        'tackle' => 'required|string|max:255',
+        'bait' => 'required|string|max:255',
+        'species' => 'required|string|max:255',
+        'weight' => 'nullable|numeric|min:0|max:999.99',
+    ]);
+
+    // Создаём новый улов в БД
+    FishCatch::create($validated);
+
+    // Редирект на список уловов с сообщением
+    return redirect('/catches')->with('success', 'Catch added successfully!');
     }
 
     /**
