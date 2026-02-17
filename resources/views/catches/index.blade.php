@@ -15,7 +15,7 @@
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
     <a href="/catches/create" class="btn">➕ Add New Catch</a>
 
-    {{-- Кнопки сортировки --}}
+    {{-- Sorting buttons --}}
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <span style="color: #6b7280; font-weight: 600; font-size: 14px;">Sort by:</span>
 
@@ -79,6 +79,40 @@
                                 @endif
                             </div>
                         </div>
+
+                        @if($catch->weather_condition || $catch->temperature)
+    <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #f3f4f6;">
+        <p style="margin: 5px 0; font-size: 13px; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+            Weather
+        </p>
+        @if($catch->weather_condition)
+            <p style="margin: 3px 0;">
+                ☁️ <strong>Condition:</strong> {{ $catch->weather_condition }}
+            </p>
+        @endif
+        @if($catch->temperature !== null)
+            <p style="margin: 3px 0;">
+                🌡️ <strong>Temperature:</strong> {{ $catch->temperature }}°C
+            </p>
+        @endif
+        @if($catch->wind_speed !== null)
+            <p style="margin: 3px 0;">
+                💨 <strong>Wind:</strong> {{ $catch->wind_speed }} m/s
+            </p>
+        @endif
+        @if($catch->pressure)
+            <p style="margin: 3px 0;">
+                🔵 <strong>Pressure:</strong> {{ $catch->pressure }} mmHg
+            </p>
+        @endif
+        @if($catch->humidity)
+            <p style="margin: 3px 0;">
+                💧 <strong>Humidity:</strong> {{ $catch->humidity }}%
+            </p>
+        @endif
+    </div>
+@endif
+
                         <div>
                             <a href="/catches/{{ $catch->id }}/edit"
                                style="display: inline-block; padding: 8px 16px; background: #f59e0b; color: white; text-decoration: none; border-radius: 6px; margin-right: 5px;">

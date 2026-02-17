@@ -60,6 +60,70 @@
             <small style="color: #6b7280;">Optional</small>
         </div>
 
+        {{-- WEATHER SECTION --}}
+        <div style="margin: 30px 0; padding: 20px; background: #f0f9ff; border-radius: 12px; border: 2px solid #bae6fd;">
+            <h3 style="color: #0369a1; margin-bottom: 20px; font-size: 18px;">
+                🌤️ Weather Conditions
+                <span style="font-size: 13px; font-weight: normal; color: #6b7280;">(optional)</span>
+            </h3>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+
+                <div>
+                    <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
+                        🌡️ Temperature (°C)
+                    </label>
+                    <input type="number" name="temperature" step="0.1" placeholder="25.0"
+                           style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
+                        ☁️ Weather Condition
+                    </label>
+                    <select name="weather_condition"
+                            style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px; background: white;">
+                        <option value="">-- Select --</option>
+                        <option value="Sunny">☀️ Sunny</option>
+                        <option value="Partly Cloudy">⛅ Partly Cloudy</option>
+                        <option value="Cloudy">☁️ Cloudy</option>
+                        <option value="Overcast">🌥️ Overcast</option>
+                        <option value="Rainy">🌧️ Rainy</option>
+                        <option value="Stormy">⛈️ Stormy</option>
+                        <option value="Foggy">🌫️ Foggy</option>
+                        <option value="Snowy">❄️ Snowy</option>
+                        <option value="Windy">💨 Windy</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
+                        💨 Wind Speed (m/s)
+                    </label>
+                    <input type="number" name="wind_speed" step="0.1" placeholder="5.0"
+                           style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
+                        🔵 Pressure (mmHg)
+                    </label>
+                    <input type="number" name="pressure" placeholder="760"
+                           style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
+                        💧 Humidity (%)
+                    </label>
+                    <input type="number" name="humidity" placeholder="65"
+                           style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
+                </div>
+
+            </div>
+        </div>
+        {{-- END WEATHER SECTION --}}
+
         <button type="submit" class="btn">💾 Save Catch</button>
         <a href="/catches" style="margin-left: 15px; color: #6b7280; text-decoration: none;">Cancel</a>
     </form>

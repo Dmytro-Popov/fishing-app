@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FishCatch;
+use App\Services\WeatherService;
 
 class CatchController extends Controller
 {
@@ -59,13 +60,21 @@ class CatchController extends Controller
         'bait' => 'required|string|max:255',
         'species' => 'required|string|max:255',
         'weight' => 'nullable|numeric|min:0|max:999.99',
+        'temperature' => 'nullable|numeric|min:-60|max:60',
+        'weather_condition' => 'nullable|string|max:100',
+        'wind_speed' => 'nullable|numeric|min:0|max:100',
+        'pressure' => 'nullable|integer|min:600|max:900',
+        'humidity' => 'nullable|integer|min:0|max:100',
     ]);
 
-    // Создаём новый улов в БД
-    FishCatch::create($validated);
+        // Получаем данные о погоде через сервис
+        $weatherData = $this->weatherService->getManual($validated);
 
-    // Редирект на список уловов с сообщением
-    return redirect('/catches')->with('success', 'Catch added successfully!');
+        // Объединяем данные улова и погоды
+        FishCatch::create(array_merge($validated, $weatherData));
+
+        // Редирект на список уловов с сообщением
+        return redirect('/catches')->with('success', 'Catch added successfully!');
     }
 
     /**
@@ -81,7 +90,8 @@ class CatchController extends Controller
      */
     public function edit(string $id)
     {
-        return view('catches.edit', ['id' => $id]);
+        $catch = FishCatch::findOrFail($id);
+        return view('catches.edit', ['catch' => $catch]);
     }
 
     /**
@@ -89,7 +99,28 @@ class CatchController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return "Catch #{$id} updated! (temporary message)";
+        // Находим улов
+    $catch = FishCatch::findOrFail($id);
+
+    // Валидация данных
+    $validated = $request->validate([
+        'date' => 'required|date',
+        'location' => 'required|string|max:255',
+        'tackle' => 'required|string|max:255',
+        'bait' => 'required|string|max:255',
+        'species' => 'required|string|max:255',
+        'weight' => 'nullable|numeric|min:0|max:999.99',
+        'temperature' => 'nullable|numeric|min:-60|max:60',
+        'weather_condition' => 'nullable|string|max:100',
+        'wind_speed' => 'nullable|numeric|min:0|max:100',
+        'pressure' => 'nullable|integer|min:600|max:900',
+        'humidity' => 'nullable|integer|min:0|max:100',
+    ]);
+
+        // Обновляем данные
+        $catch->update($validated);
+
+        return redirect('/catches')->with('success', 'Catch updated successfully!');
     }
 
     /**
@@ -98,5 +129,13 @@ class CatchController extends Controller
     public function destroy(string $id)
     {
         return "Catch #{$id} deleted! (temporary message)";
+    }
+
+    // Внедрение зависимости (Dependency Injection)
+    protected WeatherService $weatherService;
+
+    public function __construct(WeatherService $weatherService)
+    {
+        $this->weatherService = $weatherService;
     }
 }
