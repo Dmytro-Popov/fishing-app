@@ -21,6 +21,12 @@ class FishCatch extends Model
         'bait',
         'species',
         'weight',
+        'temperature',
+        'weather_condition',
+        'wind_speed',
+        'pressure',
+        'humidity',
+        'weather_source',
     ];
 
     /**
@@ -29,5 +35,9 @@ class FishCatch extends Model
     protected $casts = [
         'date' => 'date',
         'weight' => 'decimal:2',
+        'temperature' => 'decimal:1',
+        'wind_speed' => 'decimal:1',
+        'pressure' => 'integer',
+        'humidity' => 'integer',
     ];
 }

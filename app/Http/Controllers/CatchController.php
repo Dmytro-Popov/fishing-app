@@ -68,10 +68,10 @@ class CatchController extends Controller
     ]);
 
         // Получаем данные о погоде через сервис
-        $weatherData = $this->weatherService->getManual($validated);
+       // $weatherData = $this->weatherService->getManual($validated);
 
         // Объединяем данные улова и погоды
-        FishCatch::create(array_merge($validated, $weatherData));
+        FishCatch::create($validated);
 
         // Редирект на список уловов с сообщением
         return redirect('/catches')->with('success', 'Catch added successfully!');
