@@ -6,19 +6,24 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
         Schema::table('catches', function (Blueprint $table) {
-            //  Coordinates: accuracy 10.8 for latitude and 11.8 for longitude
-            $table->decimal('latitude', 10, 8)->nullable();
-            $table->decimal('longitude', 11, 8)->nullable();
+            $table->foreignId('user_id')->after('id')->nullable()->constrained()->cascadeOnDelete();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::table('catches', function (Blueprint $table) {
-            $table->dropColumn(['latitude', 'longitude']);
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
         });
     }
 };

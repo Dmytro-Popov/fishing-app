@@ -8,35 +8,37 @@ use App\Services\WeatherService;
 
 class CatchController extends Controller
 {
+    // Внедрение зависимости (Dependency Injection)
+    protected WeatherService $weatherService;
+
+    public function __construct(WeatherService $weatherService)
+    {
+        $this->weatherService = $weatherService;
+    }
     /**
      * Display a listing of catches.
      */
     public function index(Request $request)
     {
-        // Получаем параметр сортировки из URL (?sort=weight)
-    $sortBy = $request->input('sort', 'created_at'); // По умолчанию created_at
-    $sortOrder = $request->input('order', 'desc');   // По умолчанию desc (новые первые)
+        $sortBy = $request->input('sort', 'created_at');
+        $sortOrder = $request->input('order', 'desc');
 
-    // Валидация параметров (защита от SQL injection)
-    $allowedSorts = ['created_at', 'date', 'weight', 'species'];
-    $allowedOrders = ['asc', 'desc'];
+        $allowedSorts = ['created_at', 'date', 'weight', 'species'];
+        $allowedOrders = ['asc', 'desc'];
 
-    if (!in_array($sortBy, $allowedSorts)) {
-        $sortBy = 'created_at';
-    }
+        if (!in_array($sortBy, $allowedSorts)) $sortBy = 'created_at';
+        if (!in_array($sortOrder, $allowedOrders)) $sortOrder = 'desc';
 
-    if (!in_array($sortOrder, $allowedOrders)) {
-        $sortOrder = 'desc';
-    }
+        // Только уловы текущего пользователя
+        $catches = FishCatch::where('user_id', auth()->id())
+            ->orderBy($sortBy, $sortOrder)
+            ->get();
 
-    // Получаем уловы с сортировкой
-    $catches = FishCatch::orderBy($sortBy, $sortOrder)->get();
-
-    return view('catches.index', [
-        'catches' => $catches,
-        'currentSort' => $sortBy,
-        'currentOrder' => $sortOrder,
-    ]);
+        return view('catches.index', [
+            'catches' => $catches,
+            'currentSort' => $sortBy,
+            'currentOrder' => $sortOrder,
+        ]);
     }
 
     /**
@@ -53,25 +55,31 @@ class CatchController extends Controller
     public function store(Request $request)
     {
         // Валидация данных
-    $validated = $request->validate([
-        'date' => 'required|date',
-        'location' => 'required|string|max:255',
-        'tackle' => 'required|string|max:255',
-        'bait' => 'required|string|max:255',
-        'species' => 'required|string|max:255',
-        'weight' => 'nullable|numeric|min:0|max:999.99',
-        'temperature' => 'nullable|numeric|min:-60|max:60',
-        'weather_condition' => 'nullable|string|max:100',
-        'wind_speed' => 'nullable|numeric|min:0|max:100',
-        'pressure' => 'nullable|integer|min:600|max:900',
-        'humidity' => 'nullable|integer|min:0|max:100',
-    ]);
+        $validated = $request->validate([
+            'date' => 'required|date',
+            'location' => 'required|string|max:255',
+            'tackle' => 'required|string|max:255',
+            'bait' => 'required|string|max:255',
+            'species' => 'required|string|max:255',
+            'weight' => 'nullable|numeric|min:0|max:999.99',
+            'temperature' => 'nullable|numeric|min:-60|max:60',
+            'weather_condition' => 'nullable|string|max:100',
+            'wind_speed' => 'nullable|numeric|min:0|max:100',
+            'pressure' => 'nullable|integer|min:600|max:900',
+            'humidity' => 'nullable|integer|min:0|max:100',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
+        ]);
+
+        // Добавляем user_id текущего пользователя
+        $validated['user_id'] = auth()->id();
+        FishCatch::create($validated);
 
         // Получаем данные о погоде через сервис
-       // $weatherData = $this->weatherService->getManual($validated);
+        // $weatherData = $this->weatherService->getManual($validated);
 
         // Объединяем данные улова и погоды
-        FishCatch::create($validated);
+        //\App\Models\FishCatch::create($validated);
 
         // Редирект на список уловов с сообщением
         return redirect('/catches')->with('success', 'Catch added successfully!');
@@ -82,7 +90,9 @@ class CatchController extends Controller
      */
     public function show(string $id)
     {
-        return view('catches.show', ['id' => $id]);
+        $catch = FishCatch::findOrFail($id);
+
+        return view('catches.show', compact('catch'));
     }
 
     /**
@@ -100,22 +110,22 @@ class CatchController extends Controller
     public function update(Request $request, string $id)
     {
         // Находим улов
-    $catch = FishCatch::findOrFail($id);
+        $catch = FishCatch::findOrFail($id);
 
-    // Валидация данных
-    $validated = $request->validate([
-        'date' => 'required|date',
-        'location' => 'required|string|max:255',
-        'tackle' => 'required|string|max:255',
-        'bait' => 'required|string|max:255',
-        'species' => 'required|string|max:255',
-        'weight' => 'nullable|numeric|min:0|max:999.99',
-        'temperature' => 'nullable|numeric|min:-60|max:60',
-        'weather_condition' => 'nullable|string|max:100',
-        'wind_speed' => 'nullable|numeric|min:0|max:100',
-        'pressure' => 'nullable|integer|min:600|max:900',
-        'humidity' => 'nullable|integer|min:0|max:100',
-    ]);
+        // Валидация данных
+        $validated = $request->validate([
+            'date' => 'required|date',
+            'location' => 'required|string|max:255',
+            'tackle' => 'required|string|max:255',
+            'bait' => 'required|string|max:255',
+            'species' => 'required|string|max:255',
+            'weight' => 'nullable|numeric|min:0|max:999.99',
+            'temperature' => 'nullable|numeric|min:-60|max:60',
+            'weather_condition' => 'nullable|string|max:100',
+            'wind_speed' => 'nullable|numeric|min:0|max:100',
+            'pressure' => 'nullable|integer|min:600|max:900',
+            'humidity' => 'nullable|integer|min:0|max:100',
+        ]);
 
         // Обновляем данные
         $catch->update($validated);
@@ -128,14 +138,17 @@ class CatchController extends Controller
      */
     public function destroy(string $id)
     {
-        return "Catch #{$id} deleted! (temporary message)";
-    }
+        // Находим улов по ID, если не найден — автоматически вернёт 404
+        $catch = FishCatch::findOrFail($id);
+        // Проверяем что это улов именно этого пользователя
+        if ($catch->user_id !== auth()->id()) {
+            abort(403);
+        }
+            // Удаляем запись из базы данных
+            $catch->delete();
 
-    // Внедрение зависимости (Dependency Injection)
-    protected WeatherService $weatherService;
+            // Редиректим на список с сообщением об успехе
+            return redirect('/catches')->with('success', 'Catch deleted successfully!');
 
-    public function __construct(WeatherService $weatherService)
-    {
-        $this->weatherService = $weatherService;
     }
 }

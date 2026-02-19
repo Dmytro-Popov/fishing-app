@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('catches', function (Blueprint $table) {
-            //
+            $table->decimal('temperature', 4, 1)->nullable();
+            $table->string('weather_condition', 100)->nullable();
+            $table->decimal('wind_speed', 4, 1)->nullable();
+            $table->integer('pressure')->nullable();
+            $table->integer('humidity')->nullable();
+            $table->string('weather_source', 50)->nullable();
         });
     }
 
@@ -22,7 +27,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('catches', function (Blueprint $table) {
-            //
+            $table->dropColumn(['temperature', 'weather_condition', 'wind_speed', 'pressure', 'humidity', 'weather_source']);
         });
     }
 };

@@ -55,7 +55,9 @@
                         {{-- LEFT: Catch details --}}
                         <div style="flex: 1;">
                             <h3 style="color: #2563eb; margin-bottom: 10px; font-size: 24px;">
-                                🐟 {{ $catch->species }}
+                                <a href="/catches/{{ $catch->id }}" style="text-decoration: none; color: #2563eb;">
+                                    🐟 {{ $catch->species }}
+                                </a>
                             </h3>
                             <div style="color: #6b7280; font-size: 14px;">
                                 <p style="margin: 5px 0;">

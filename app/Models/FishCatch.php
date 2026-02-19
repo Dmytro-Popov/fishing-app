@@ -15,6 +15,7 @@ class FishCatch extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
+        'user_id',
         'date',
         'location',
         'tackle',
@@ -27,6 +28,8 @@ class FishCatch extends Model
         'pressure',
         'humidity',
         'weather_source',
+        'latitude',
+        'longitude',
     ];
 
     /**
@@ -40,4 +43,10 @@ class FishCatch extends Model
         'pressure' => 'integer',
         'humidity' => 'integer',
     ];
+
+    public function user()
+    {
+        // Улов принадлежит одному пользователю
+        return $this->belongsTo(User::class);
+    }
 }
