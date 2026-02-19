@@ -12,7 +12,8 @@
         </div>
     @endif
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
+    <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
         <a href="/catches/create" class="btn">➕ Add New Catch</a>
 
         {{-- Sorting buttons --}}
@@ -24,18 +25,15 @@
                 🕐 Latest
             </a>
 
-            <a href="/catches?sort=date&order=desc"
-                class="sort-btn {{ $currentSort === 'date' ? 'active' : '' }}">
+            <a href="/catches?sort=date&order=desc" class="sort-btn {{ $currentSort === 'date' ? 'active' : '' }}">
                 📅 Date
             </a>
 
-            <a href="/catches?sort=weight&order=desc"
-                class="sort-btn {{ $currentSort === 'weight' ? 'active' : '' }}">
+            <a href="/catches?sort=weight&order=desc" class="sort-btn {{ $currentSort === 'weight' ? 'active' : '' }}">
                 ⚖️ Weight
             </a>
 
-            <a href="/catches?sort=species&order=asc"
-                class="sort-btn {{ $currentSort === 'species' ? 'active' : '' }}">
+            <a href="/catches?sort=species&order=asc" class="sort-btn {{ $currentSort === 'species' ? 'active' : '' }}">
                 🐟 Species
             </a>
         </div>
@@ -50,7 +48,8 @@
     @else
         <div style="margin-top: 30px;">
             @foreach ($catches as $catch)
-                <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 15px;">
+                <div
+                    style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 15px;">
                     <div style="display: flex; justify-content: space-between; align-items: start;">
 
                         {{-- LEFT: Catch details --}}
@@ -79,8 +78,10 @@
 
                                 {{-- WEATHER BLOCK --}}
                                 @if ($catch->weather_condition || $catch->temperature !== null)
-                                    <div style="margin-top: 12px; padding: 12px; background: #f0f9ff; border-radius: 8px; border-left: 3px solid #38bdf8;">
-                                        <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 700; color: #0369a1; text-transform: uppercase; letter-spacing: 1px;">
+                                    <div
+                                        style="margin-top: 12px; padding: 12px; background: #f0f9ff; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                                        <p
+                                            style="margin: 0 0 8px 0; font-size: 12px; font-weight: 700; color: #0369a1; text-transform: uppercase; letter-spacing: 1px;">
                                             🌤️ Weather
                                         </p>
                                         <div style="display: flex; flex-wrap: wrap; gap: 12px;">
@@ -113,7 +114,6 @@
                                     </div>
                                 @endif
                                 {{-- END WEATHER BLOCK --}}
-
                             </div>
                         </div>
 
@@ -125,17 +125,16 @@
                             </a>
 
                             <form action="/catches/{{ $catch->id }}" method="POST"
-                                  onsubmit="return confirm('Are you sure you want to delete this catch?');"
-                                  style="display: inline;">
+                                onsubmit="return confirm('Are you sure you want to delete this catch?');"
+                                style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
-                                        style="padding: 8px 16px; background: #dc2626; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">
+                                    style="padding: 8px 16px; background: #dc2626; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">
                                     🗑️ Delete
                                 </button>
                             </form>
                         </div>
-
                     </div>
                 </div>
             @endforeach
