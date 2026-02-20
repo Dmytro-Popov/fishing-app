@@ -71,6 +71,13 @@ class CatchController extends Controller
             'longitude' => 'nullable|numeric',
         ]);
 
+        // Если загружено фото — сохраняем его
+        if ($request->hasFile('photo')) {
+            // Сохраняем файл в storage/app/public/catches/
+            // storedPath вернёт путь типа "catches/имяфайла.jpg"
+            $validated['photo'] = $request->file('photo')->store('catches', 'public');
+        }
+
         // Добавляем user_id текущего пользователя
         $validated['user_id'] = auth()->id();
         FishCatch::create($validated);
@@ -144,11 +151,10 @@ class CatchController extends Controller
         if ($catch->user_id !== auth()->id()) {
             abort(403);
         }
-            // Удаляем запись из базы данных
-            $catch->delete();
+        // Удаляем запись из базы данных
+        $catch->delete();
 
-            // Редиректим на список с сообщением об успехе
-            return redirect('/catches')->with('success', 'Catch deleted successfully!');
-
+        // Редиректим на список с сообщением об успехе
+        return redirect('/catches')->with('success', 'Catch deleted successfully!');
     }
 }

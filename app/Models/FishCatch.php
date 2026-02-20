@@ -21,6 +21,7 @@ class FishCatch extends Model
         'tackle',
         'bait',
         'species',
+        'photo',
         'weight',
         'temperature',
         'weather_condition',

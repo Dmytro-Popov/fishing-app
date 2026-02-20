@@ -3,8 +3,9 @@
 @section('title', 'My Catches')
 
 @section('content')
-    <h1>🎣 My Catches</h1>
-    <p class="subtitle">Your fishing diary. Track every catch, analyze patterns, improve your technique.</p>
+    <h1 style="height: 30px;">🎣 My Catches</h1>
+
+    <p style="height: 50px;"class="subtitle">Your fishing diary. Track every catch, analyze patterns, improve your technique.</p>
 
     @if (session('success'))
         <div style="padding: 15px; background: #d4edda; color: #155724; border-radius: 8px; margin-bottom: 20px;">
