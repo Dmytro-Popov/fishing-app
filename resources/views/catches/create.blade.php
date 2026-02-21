@@ -186,46 +186,6 @@
             }
         </script>
 
-        <script>
-            let map;
-            let marker;
-
-            function initMap() {
-                // Центр по умолчанию (например, твои частые места Hadjider или Dnestr)
-                const defaultCoords = {
-                    lat: 46.4825,
-                    lng: 30.7233
-                };
-
-                map = new google.maps.Map(document.getElementById("map"), {
-                    center: defaultCoords,
-                    zoom: 10,
-                    mapTypeId: 'terrain' // Рыбакам удобнее рельефная карта
-                });
-
-                // Клик по карте
-                map.addListener("click", (e) => {
-                    placeMarker(e.latLng);
-                });
-            }
-
-            function placeMarker(location) {
-                if (marker) {
-                    marker.setPosition(location);
-                } else {
-                    marker = new google.maps.Marker({
-                        position: location,
-                        map: map,
-                        draggable: true
-                    });
-                }
-
-                // Записываем координаты в скрытые инпуты для Laravel
-                document.getElementById("latitude").value = location.lat();
-                document.getElementById("longitude").value = location.lng();
-            }
-        </script>
-
         <button type="submit" class="btn">💾 Save Catch</button>
         <a href="/catches" style="margin-left: 15px; color: #6b7280; text-decoration: none;">Cancel</a>
     </form>

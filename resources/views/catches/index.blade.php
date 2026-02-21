@@ -80,6 +80,12 @@
                                     </p>
                                 @endif
 
+                                {{-- PHOTO --}}
+                                @if ($catch->photo)
+                                    <img src="{{ asset('storage/' . $catch->photo) }}"
+                                        style="width: 200px; height: 200px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e7eb;">
+                                @endif
+
                                 {{-- WEATHER BLOCK --}}
                                 @if ($catch->weather_condition || $catch->temperature !== null)
                                     <div
@@ -123,11 +129,7 @@
 
                         {{-- RIGHT: Action buttons --}}
                         <div style="display: flex; gap: 5px; margin-left: 15px;">
-                            {{-- PHOTO --}}
-                            @if ($catch->photo)
-                                <img src="{{ asset('storage/' . $catch->photo) }}"
-                                    style="width: 120px; height: 90px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e7eb;">
-                            @endif
+
                             <a href="/catches/{{ $catch->id }}/edit"
                                 style="display: inline-block; padding: 8px 16px; background: #f59e0b; color: white; text-decoration: none; border-radius: 6px; font-size: 14px;">
                                 ✏️ Edit

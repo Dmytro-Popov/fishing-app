@@ -54,6 +54,7 @@ class CatchController extends Controller
      */
     public function store(Request $request)
     {
+
         // Валидация данных
         $validated = $request->validate([
             'date' => 'required|date',
@@ -65,17 +66,16 @@ class CatchController extends Controller
             'temperature' => 'nullable|numeric|min:-60|max:60',
             'weather_condition' => 'nullable|string|max:100',
             'wind_speed' => 'nullable|numeric|min:0|max:100',
-            'pressure' => 'nullable|integer|min:600|max:900',
+            'pressure' => 'nullable|integer|min:0|max:2000',
             'humidity' => 'nullable|integer|min:0|max:100',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
         ]);
 
-        // Если загружено фото — сохраняем его
-        if ($request->hasFile('photo')) {
-            // Сохраняем файл в storage/app/public/catches/
-            // storedPath вернёт путь типа "catches/имяфайла.jpg"
-            $validated['photo'] = $request->file('photo')->store('catches', 'public');
+         // Если загружено фото — сохраняем его
+        $photo = $request->file('photo');
+        if ($photo && $photo->isValid()) {
+            $validated['photo'] = $photo->store('catches', 'public');
         }
 
         // Добавляем user_id текущего пользователя
