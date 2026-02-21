@@ -5,7 +5,8 @@
 @section('content')
     <h1 style="height: 30px;">🎣 My Catches</h1>
 
-    <p style="height: 50px;"class="subtitle">Your fishing diary. Track every catch, analyze patterns, improve your technique.</p>
+    <p style="height: 50px;"class="subtitle">Your fishing diary. Track every catch, analyze patterns, improve your technique.
+    </p>
 
     @if (session('success'))
         <div style="padding: 15px; background: #d4edda; color: #155724; border-radius: 8px; margin-bottom: 20px;">
@@ -122,6 +123,11 @@
 
                         {{-- RIGHT: Action buttons --}}
                         <div style="display: flex; gap: 5px; margin-left: 15px;">
+                            {{-- PHOTO --}}
+                            @if ($catch->photo)
+                                <img src="{{ asset('storage/' . $catch->photo) }}"
+                                    style="width: 120px; height: 90px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e7eb;">
+                            @endif
                             <a href="/catches/{{ $catch->id }}/edit"
                                 style="display: inline-block; padding: 8px 16px; background: #f59e0b; color: white; text-decoration: none; border-radius: 6px; font-size: 14px;">
                                 ✏️ Edit
