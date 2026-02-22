@@ -58,7 +58,7 @@ class CatchController extends Controller
         // Валидация данных
         $validated = $request->validate([
             'date' => 'required|date',
-            'location' => 'required|string|max:255',
+            'location' => 'nullable|string|max:255',
             'tackle' => 'required|string|max:255',
             'bait' => 'required|string|max:255',
             'species' => 'required|string|max:255',
@@ -71,8 +71,17 @@ class CatchController extends Controller
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
         ]);
+        $request->validate([
+            'location' => 'nullable|string|max:255',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
+        ]);
 
-         // Если загружено фото — сохраняем его
+        if (!$request->location && !$request->latitude) {
+            return back()->withErrors(['location' => 'Please enter a location or select a point on the map.'])->withInput();
+        }
+
+        // Если загружено фото — сохраняем его
         $photo = $request->file('photo');
         if ($photo && $photo->isValid()) {
             $validated['photo'] = $photo->store('catches', 'public');

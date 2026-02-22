@@ -18,14 +18,20 @@
                 value="{{ date('Y-m-d') }}">
         </div>
 
-        <div style="margin-bottom: 20px;">
+        <div style="margin-bottom: 20px; padding: 20px; border: 2px solid #e5e7eb; border-radius: 12px;">
             <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">
                 📍 Location
             </label>
-            <input type="text" name="location" placeholder="Lake Tahoe, CA" required
-                style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px;">
-            <small style="color: #6b7280;">Where did you fish?</small>
+            <input type="text" name="location" id="location-input" placeholder="e.g. Dnestr, Odessa region"
+                style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; margin-bottom: 12px;">
+            <small style="color: #6b7280; display: block; margin-bottom: 12px;">Type location name or click on the map to
+                set exact point</small>
+
+            <div id="map" style="height: 400px; width: 100%; border-radius: 12px; border: 1px solid #ddd;"></div>
         </div>
+
+        <input type="hidden" name="latitude" id="latitude">
+        <input type="hidden" name="longitude" id="longitude">
 
         <div style="margin-bottom: 20px;">
             <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">
@@ -131,11 +137,6 @@
         <input type="hidden" name="latitude" id="latitude">
         <input type="hidden" name="longitude" id="longitude">
 
-        <div class="mb-4">
-            <label class="form-label fw-bold">📍 Exact fishing spot</label>
-            <div id="map" style="height: 400px; width: 100%; border-radius: 12px; border: 1px solid #ddd;"></div>
-            <small class="text-muted">Click on the map to mark a point</small>
-        </div>
         <div style="height: 50px;">
         </div>
 
@@ -169,12 +170,15 @@
                         map: map,
                         draggable: true
                     });
+                    marker.addListener('dragend', (e) => {
+                        document.getElementById("latitude").value = e.latLng.lat();
+                        document.getElementById("longitude").value = e.latLng.lng();
+                    });
                 }
                 document.getElementById("latitude").value = location.lat();
                 document.getElementById("longitude").value = location.lng();
             }
 
-            // Загружаем Maps только если ещё не загружен
             if (typeof google === 'undefined') {
                 const script = document.createElement('script');
                 script.src = "https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_key') }}&callback=initMap";
