@@ -20,8 +20,16 @@
                 <p>⚖️ <strong>Weight:</strong> {{ $catch->weight }} kg</p>
             @endif
 
+            @if ($catch->photo)
+                <div style="margin-top: 15px;">
+                    <img src="{{ asset('storage/' . $catch->photo) }}"
+                        style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e7eb;">
+                </div>
+            @endif
+
             @if ($catch->weather_condition || $catch->temperature !== null)
-                <div style="margin-top: 15px; padding: 15px; background: #f0f9ff; border-radius: 8px; border-left: 3px solid #38bdf8;">
+                <div
+                    style="margin-top: 15px; padding: 15px; background: #f0f9ff; border-radius: 8px; border-left: 3px solid #38bdf8;">
                     <p style="font-weight: 700; color: #0369a1; margin-bottom: 10px;">🌤️ Weather</p>
                     @if ($catch->weather_condition)
                         <p>☁️ {{ $catch->weather_condition }}</p>
@@ -45,7 +53,7 @@
 
         <div style="margin-top: 20px; display: flex; gap: 10px;">
             <a href="/catches/{{ $catch->id }}/edit"
-               style="padding: 10px 20px; background: #f59e0b; color: white; text-decoration: none; border-radius: 6px;">
+                style="padding: 10px 20px; background: #f59e0b; color: white; text-decoration: none; border-radius: 6px;">
                 ✏️ Edit
             </a>
         </div>

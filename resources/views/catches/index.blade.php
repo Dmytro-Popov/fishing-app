@@ -54,87 +54,30 @@
                     style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 15px;">
                     <div style="display: flex; justify-content: space-between; align-items: start;">
 
-                        {{-- LEFT: Catch details --}}
                         <div style="flex: 1;">
                             <h3 style="color: #2563eb; margin-bottom: 10px; font-size: 24px;">
-                                <a href="/catches/{{ $catch->id }}" style="text-decoration: none; color: #2563eb;">
-                                    🐟 {{ $catch->species }}
-                                </a>
+                                🐟 {{ $catch->species }}
                             </h3>
                             <div style="color: #6b7280; font-size: 14px;">
                                 <p style="margin: 5px 0;">
                                     📅 <strong>Date:</strong> {{ $catch->date->format('F d, Y') }}
                                 </p>
                                 <p style="margin: 5px 0;">
-                                    📍 <strong>Location:</strong> {{ $catch->location }}
+                                    📍 <strong>Location:</strong>
+                                    {{ $catch->location ?: ($catch->latitude ? $catch->latitude . ', ' . $catch->longitude : '—') }}
                                 </p>
-                                <p style="margin: 5px 0;">
-                                    🎣 <strong>Tackle:</strong> {{ $catch->tackle }}
-                                </p>
-                                <p style="margin: 5px 0;">
-                                    🪱 <strong>Bait:</strong> {{ $catch->bait }}
-                                </p>
-                                @if ($catch->weight)
-                                    <p style="margin: 5px 0;">
-                                        ⚖️ <strong>Weight:</strong> {{ $catch->weight }} kg
-                                    </p>
-                                @endif
-
-                                {{-- PHOTO --}}
-                                @if ($catch->photo)
-                                    <img src="{{ asset('storage/' . $catch->photo) }}"
-                                        style="width: 200px; height: 200px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e7eb;">
-                                @endif
-
-                                {{-- WEATHER BLOCK --}}
-                                @if ($catch->weather_condition || $catch->temperature !== null)
-                                    <div
-                                        style="margin-top: 12px; padding: 12px; background: #f0f9ff; border-radius: 8px; border-left: 3px solid #38bdf8;">
-                                        <p
-                                            style="margin: 0 0 8px 0; font-size: 12px; font-weight: 700; color: #0369a1; text-transform: uppercase; letter-spacing: 1px;">
-                                            🌤️ Weather
-                                        </p>
-                                        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
-                                            @if ($catch->weather_condition)
-                                                <span style="font-size: 13px; color: #374151;">
-                                                    ☁️ {{ $catch->weather_condition }}
-                                                </span>
-                                            @endif
-                                            @if ($catch->temperature !== null)
-                                                <span style="font-size: 13px; color: #374151;">
-                                                    🌡️ {{ $catch->temperature }}°C
-                                                </span>
-                                            @endif
-                                            @if ($catch->wind_speed !== null)
-                                                <span style="font-size: 13px; color: #374151;">
-                                                    💨 {{ $catch->wind_speed }} m/s
-                                                </span>
-                                            @endif
-                                            @if ($catch->pressure)
-                                                <span style="font-size: 13px; color: #374151;">
-                                                    🔵 {{ $catch->pressure }} mmHg
-                                                </span>
-                                            @endif
-                                            @if ($catch->humidity)
-                                                <span style="font-size: 13px; color: #374151;">
-                                                    💧 {{ $catch->humidity }}%
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endif
-                                {{-- END WEATHER BLOCK --}}
                             </div>
+                            <a href="/catches/{{ $catch->id }}"
+                                style="display: inline-block; margin-top: 12px; padding: 8px 16px; background: #2563eb; color: white; text-decoration: none; border-radius: 6px; font-size: 14px;">
+                                🔍 Full info
+                            </a>
                         </div>
 
-                        {{-- RIGHT: Action buttons --}}
                         <div style="display: flex; gap: 5px; margin-left: 15px;">
-
                             <a href="/catches/{{ $catch->id }}/edit"
                                 style="display: inline-block; padding: 8px 16px; background: #f59e0b; color: white; text-decoration: none; border-radius: 6px; font-size: 14px;">
                                 ✏️ Edit
                             </a>
-
                             <form action="/catches/{{ $catch->id }}" method="POST"
                                 onsubmit="return confirm('Are you sure you want to delete this catch?');"
                                 style="display: inline;">
