@@ -83,7 +83,7 @@
                     <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
                         🌡️ Temperature (°C)
                     </label>
-                    <input type="number" name="temperature" step="0.1" placeholder="25.0"
+                    <input type="number" name="temperature" step="0.1" placeholder="25.0" min="-50" max="50"
                         style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
                 </div>
 
@@ -110,7 +110,7 @@
                     <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
                         💨 Wind Speed (m/s)
                     </label>
-                    <input type="number" name="wind_speed" step="0.1" placeholder="5.0"
+                    <input type="number" name="wind_speed" step="0.1" placeholder="5.0" min="0" max="100"
                         style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
                 </div>
 
@@ -118,7 +118,7 @@
                     <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
                         🔵 Pressure (mmHg)
                     </label>
-                    <input type="number" name="pressure" placeholder="760"
+                    <input type="number" name="pressure" placeholder="760" min="600" max="900"
                         style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
                 </div>
 
@@ -126,7 +126,7 @@
                     <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
                         💧 Humidity (%)
                     </label>
-                    <input type="number" name="humidity" placeholder="65"
+                    <input type="number" name="humidity" placeholder="65" min="0" max="100"
                         style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
                 </div>
 
