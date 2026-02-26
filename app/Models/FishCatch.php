@@ -31,6 +31,8 @@ class FishCatch extends Model
         'weather_source',
         'latitude',
         'longitude',
+        'trophy_species',
+        'trophy_weight',
     ];
 
     /**
@@ -43,6 +45,7 @@ class FishCatch extends Model
         'wind_speed' => 'decimal:1',
         'pressure' => 'integer',
         'humidity' => 'integer',
+        'trophy_weight' => 'decimal:2',
     ];
 
     public function user()

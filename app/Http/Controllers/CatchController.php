@@ -66,15 +66,12 @@ class CatchController extends Controller
             'temperature' => 'nullable|numeric|min:-60|max:60',
             'weather_condition' => 'nullable|string|max:100',
             'wind_speed' => 'nullable|numeric|min:0|max:100',
-            'pressure' => 'nullable|integer|min:0|max:2000',
+            'pressure' => 'nullable|integer|min:600|max:900',
             'humidity' => 'nullable|integer|min:0|max:100',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
-        ]);
-        $request->validate([
-            'location' => 'nullable|string|max:255',
-            'latitude' => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
+            'trophy_species' => 'nullable|string|max:255',
+            'trophy_weight' => 'nullable|numeric|min:0|max:999.99',
         ]);
 
         if (!$request->location && !$request->latitude) {

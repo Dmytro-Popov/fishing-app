@@ -65,10 +65,38 @@
                 style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px;">
             <small style="color: #6b7280;">Optional</small>
         </div>
-        <div>
-            <label>📸 Photo</label>
-            <input type="file" name="photo" accept="image/*">
+
+        {{-- TROPHY SECTION --}}
+        <div style="margin: 30px 0; padding: 20px; background: #fffbeb; border-radius: 12px; border: 2px solid #fcd34d;">
+            <h3 style="color: #92400e; margin-bottom: 20px; font-size: 18px;">
+                🏆 Trophy
+                <span style="font-size: 13px; font-weight: normal; color: #6b7280;">(optional)</span>
+            </h3>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
+                    🐟 Trophy Species
+                </label>
+                <input type="text" name="trophy_species" placeholder="Carp, Pike, Bass..."
+                    style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
+                    ⚖️ Trophy Weight (kg)
+                </label>
+                <input type="number" name="trophy_weight" step="0.01" placeholder="5.0" min="0" max="999.99"
+                    style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
+            </div>
+
+            <div>
+                <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
+                    📸 Trophy Photo
+                </label>
+                <input type="file" name="photo" accept="image/*">
+            </div>
         </div>
+        {{-- END TROPHY SECTION --}}
 
         {{-- WEATHER SECTION --}}
         <div style="margin: 30px 0; padding: 20px; background: #f0f9ff; border-radius: 12px; border: 2px solid #bae6fd;">
@@ -110,7 +138,8 @@
                     <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #374151; font-size: 14px;">
                         💨 Wind Speed (m/s)
                     </label>
-                    <input type="number" name="wind_speed" step="0.1" placeholder="5.0" min="0" max="100"
+                    <input type="number" name="wind_speed" step="0.1" placeholder="5.0" min="0"
+                        max="100"
                         style="width: 100%; padding: 10px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 15px;">
                 </div>
 
@@ -133,7 +162,6 @@
             </div>
         </div>
         {{-- END WEATHER SECTION --}}
-
         <input type="hidden" name="latitude" id="latitude">
         <input type="hidden" name="longitude" id="longitude">
 
