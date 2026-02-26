@@ -21,10 +21,22 @@
             @endif
 
             @if ($catch->photo)
-                <div style="margin-top: 15px;">
-                    <img src="{{ asset('storage/' . $catch->photo) }}"
-                        style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e7eb;">
-                </div>
+                @if ($catch->photo)
+                    <div style="margin-top: 15px;">
+                        <img src="{{ asset('storage/' . $catch->photo) }}"
+                            onclick="document.getElementById('photo-modal').style.display='flex'"
+                            style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e7eb; cursor: pointer;">
+                    </div>
+
+                    {{-- MODAL --}}
+                    <div id="photo-modal" onclick="this.style.display='none'"
+                        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; cursor: pointer;">
+                        <img src="{{ asset('storage/' . $catch->photo) }}"
+                            style="max-width: 90%; max-height: 90vh; border-radius: 8px; object-fit: contain;">
+                        <span
+                            style="position: absolute; top: 20px; right: 30px; color: white; font-size: 36px; cursor: pointer;">✕</span>
+                    </div>
+                @endif
             @endif
 
             @if ($catch->weather_condition || $catch->temperature !== null)
