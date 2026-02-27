@@ -3,10 +3,10 @@
 @section('title', 'Add New Catch')
 
 @section('content')
-    <h1>➕ Add New Catch</h1>
-    <p class="subtitle">Record your fishing success</p>
+    <h1 style="max-width: 600px; margin: 0 auto 10px;";>➕ Add New Catch</h1>
+    <p class="subtitle" style="max-width: 600px; margin: 0 auto 30px;";>Record your fishing success</p>
 
-    <form action="/catches" method="POST" style="max-width: 600px;" enctype="multipart/form-data">
+    <form action="/catches" method="POST" style="max-width: 600px; margin: 0 auto 30px;" enctype="multipart/form-data">
         @csrf
 
         <div style="margin-bottom: 20px;">

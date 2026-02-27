@@ -32,7 +32,7 @@ class CatchController extends Controller
         // Только уловы текущего пользователя
         $catches = FishCatch::where('user_id', auth()->id())
             ->orderBy($sortBy, $sortOrder)
-            ->get();
+            ->paginate(5);
 
         return view('catches.index', [
             'catches' => $catches,

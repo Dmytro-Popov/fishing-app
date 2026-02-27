@@ -92,6 +92,9 @@
                     </div>
                 </div>
             @endforeach
+            <div style="margin-top: 20px;">
+                {{ $catches->links() }}
+            </div>
         </div>
     @endif
 @endsection
