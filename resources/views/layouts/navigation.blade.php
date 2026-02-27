@@ -24,6 +24,9 @@
                     <x-nav-link :href="'/catches/create'" :active="request()->is('catches/create')">
                         ➕ Add New Catch
                     </x-nav-link>
+                    <x-nav-link :href="'/stats'" :active="request()->is('stats')">
+                        📊 Stats
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -103,6 +106,9 @@
                 <x-responsive-nav-link :href="'/catches/create'" :active="request()->is('catches/create')">
                     ➕ Add New Catch
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="'/stats'" :active="request()->is('stats')">
+                    📊 Stats
+                    </x-responsiv-nav-link>
             </div>
         </div>
 </nav>

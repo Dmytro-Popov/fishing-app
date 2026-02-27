@@ -72,7 +72,6 @@
                 <span style="position: absolute; top: 20px; right: 30px; color: white; font-size: 36px; cursor: pointer;">✕</span>
             </div>
         @endif
-
         <div style="margin-top: 20px; display: flex; gap: 10px;">
             <a href="/catches/{{ $catch->id }}/edit"
                 style="padding: 10px 20px; background: #f59e0b; color: white; text-decoration: none; border-radius: 6px;">

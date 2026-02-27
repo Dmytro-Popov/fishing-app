@@ -146,6 +146,41 @@ class CatchController extends Controller
         return redirect('/catches')->with('success', 'Catch updated successfully!');
     }
 
+    public function stats(Request $request)
+    {
+        $period = $request->input('period', 'month');
+        $month = $request->input('month', now()->month);
+        $year = $request->input('year', now()->year);
+
+        if ($period === 'month') {
+            $startDate = \Carbon\Carbon::createFromDate($year, $month, 1)->startOfMonth();
+            $endDate = \Carbon\Carbon::createFromDate($year, $month, 1)->endOfMonth();
+        }else {
+            $startDate = now()->subYear();
+            $endDate = now();
+        }
+
+        $catches = FishCatch::where('user_id', auth()->id())
+            ->whereBetween('date', [$startDate, $endDate])
+            ->orderBy('date')
+            ->get();
+
+        $chartData = $catches->groupBy(function ($catch) use ($period) {
+            return $period === 'year'
+                ? $catch->date->format('Y-m')
+                : $catch->date->format('Y-m-d');
+        })->map(fn($group) => $group->count());
+
+        // Генерируем список годов для выбора
+        $years = FishCatch::where('user_id', auth()->id())
+            ->selectRaw('strftime("%Y", date) as year')
+            ->distinct()
+            ->pluck('year')
+            ->sortDesc();
+
+        return view('catches.stats', compact('chartData', 'period', 'month', 'year', 'years'));
+    }
+
     /**
      * Remove the specified catch from storage.
      */
