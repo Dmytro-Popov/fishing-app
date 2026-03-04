@@ -11,23 +11,37 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('messages.dashboard') }}
                     </x-nav-link>
 
                     <x-nav-link :href="'/catches'" :active="request()->is('catches*')">
-                        🎣 My Catches
+                        🎣 {{ __('messages.my_catches') }}
                     </x-nav-link>
 
                     <x-nav-link :href="'/catches/create'" :active="request()->is('catches/create')">
-                        ➕ Add New Catch
+                        ➕ {{ __('messages.add_new_catch') }}
                     </x-nav-link>
+
                     <x-nav-link :href="'/stats'" :active="request()->is('stats')">
-                        📊 Stats
+                        📊 {{ __('messages.stats') }}
                     </x-nav-link>
                 </div>
+            </div>
+
+            {{-- Language Switcher --}}
+            <div class="hidden sm:flex sm:items-center sm:ms-4">
+                <a href="{{ route('language.switch', 'en') }}"
+                    style="padding: 4px 10px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: 600;
+            {{ app()->getLocale() === 'en' ? 'background: #2563eb; color: white;' : 'color: #6b7280;' }}">
+                    EN
+                </a>
+                <a href="{{ route('language.switch', 'de') }}"
+                    style="padding: 4px 10px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: 600;
+            {{ app()->getLocale() === 'de' ? 'background: #2563eb; color: white;' : 'color: #6b7280;' }}">
+                    DE
+                </a>
             </div>
 
             <!-- Settings Dropdown -->
@@ -88,27 +102,20 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('messages.dashboard') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="'/catches'" :active="request()->is('catches*')">
+                🎣 {{ __('messages.my_catches') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="'/catches/create'" :active="request()->is('catches/create')">
+                ➕ {{ __('messages.add_new_catch') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="'/stats'" :active="request()->is('stats')">
+                📊 {{ __('messages.stats') }}
             </x-responsive-nav-link>
         </div>
-
-        <!-- Responsive Navigation Menu -->
-        <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
-            <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Dashboard') }}
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="'/catches'" :active="request()->is('catches*')">
-                    🎣 My Catches
-                </x-responsive-nav-link>
-
-                <x-responsive-nav-link :href="'/catches/create'" :active="request()->is('catches/create')">
-                    ➕ Add New Catch
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="'/stats'" :active="request()->is('stats')">
-                    📊 Stats
-                    </x-responsiv-nav-link>
-            </div>
-        </div>
+    </div>
 </nav>

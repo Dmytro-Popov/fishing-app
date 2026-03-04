@@ -5,24 +5,24 @@
 @section('content')
     <div style="max-width: 600px; margin: 0 auto;">
 
-        <a href="/catches" style="color: #6b7280; text-decoration: none;">← Back to list</a>
+        <a href="/catches" style="color: #6b7280; text-decoration: none;">← {{ __('messages.back_to_list') }}</a>
 
         <h1 style="margin-top: 20px;">🐟 {{ $catch->species }}</h1>
 
         <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 25px; margin-top: 20px;">
 
-            <p>📅 <strong>Date:</strong> {{ $catch->date->format('F d, Y') }}</p>
-            <p>📍 <strong>Location:</strong> {{ $catch->location }}</p>
-            <p>🎣 <strong>Tackle:</strong> {{ $catch->tackle }}</p>
-            <p>🪱 <strong>Bait:</strong> {{ $catch->bait }}</p>
+            <p>📅 <strong>{{ __('messages.date') }}:</strong> {{ $catch->date->format('F d, Y') }}</p>
+            <p>📍 <strong>{{ __('messages.location') }}:</strong> {{ $catch->location }}</p>
+            <p>🎣 <strong>{{ __('messages.tackle') }}:</strong> {{ $catch->tackle }}</p>
+            <p>🪱 <strong>{{ __('messages.bait') }}:</strong> {{ $catch->bait }}</p>
 
             @if ($catch->weight)
-                <p>⚖️ <strong>Total Weight:</strong> {{ $catch->weight }} kg</p>
+                <p>⚖️ <strong>{{ __('messages.total_weight') }}:</strong> {{ $catch->weight }} kg</p>
             @endif
 
             @if ($catch->weather_condition || $catch->temperature !== null)
                 <div style="margin-top: 15px; padding: 15px; background: #f0f9ff; border-radius: 8px; border-left: 3px solid #38bdf8;">
-                    <p style="font-weight: 700; color: #0369a1; margin-bottom: 10px;">🌤️ Weather</p>
+                    <p style="font-weight: 700; color: #0369a1; margin-bottom: 10px;">🌤️ {{ __('messages.weather_conditions') }}</p>
                     @if ($catch->weather_condition)
                         <p>☁️ {{ $catch->weather_condition }}</p>
                     @endif
@@ -44,12 +44,12 @@
             {{-- TROPHY BLOCK --}}
             @if ($catch->trophy_species || $catch->trophy_weight || $catch->photo)
                 <div style="margin-top: 15px; padding: 15px; background: #fffbeb; border-radius: 8px; border-left: 3px solid #fcd34d;">
-                    <p style="font-weight: 700; color: #92400e; margin-bottom: 10px;">🏆 Trophy</p>
+                    <p style="font-weight: 700; color: #92400e; margin-bottom: 10px;">🏆 {{ __('messages.trophy') }}</p>
                     @if ($catch->trophy_species)
-                        <p>🐟 <strong>Species:</strong> {{ $catch->trophy_species }}</p>
+                        <p>🐟 <strong>{{ __('messages.species') }}:</strong> {{ $catch->trophy_species }}</p>
                     @endif
                     @if ($catch->trophy_weight)
-                        <p>⚖️ <strong>Weight:</strong> {{ $catch->trophy_weight }} kg</p>
+                        <p>⚖️ <strong>{{ __('messages.weight') }}:</strong> {{ $catch->trophy_weight }} kg</p>
                     @endif
                     @if ($catch->photo)
                         <div style="margin-top: 10px;">
@@ -72,12 +72,12 @@
                 <span style="position: absolute; top: 20px; right: 30px; color: white; font-size: 36px; cursor: pointer;">✕</span>
             </div>
         @endif
+
         <div style="margin-top: 20px; display: flex; gap: 10px;">
             <a href="/catches/{{ $catch->id }}/edit"
                 style="padding: 10px 20px; background: #f59e0b; color: white; text-decoration: none; border-radius: 6px;">
-                ✏️ Edit
+                ✏️ {{ __('messages.edit') }}
             </a>
         </div>
-
     </div>
 @endsection

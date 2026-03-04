@@ -20,4 +20,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/stats', [CatchController::class, 'stats'])->name('stats');
 });
 
+Route::get('/language/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'de'])) {
+        session(['locale' => $locale]);
+        session()->save();
+    }
+
+    return redirect()->back();
+})->name('language.switch');
+
 require __DIR__ . '/auth.php';

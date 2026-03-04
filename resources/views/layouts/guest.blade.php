@@ -26,5 +26,6 @@
                 {{ $slot }}
             </div>
         </div>
+        <script src="{{ asset('js/koi-cursor.js') }}"></script>
     </body>
 </html>
