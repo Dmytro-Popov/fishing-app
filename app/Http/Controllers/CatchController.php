@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\FishCatch;
 use App\Services\WeatherService;
+use Illuminate\Support\Facades\Storage;
 
 class CatchController extends Controller
 {
@@ -125,6 +126,8 @@ class CatchController extends Controller
         // Находим улов
         $catch = FishCatch::findOrFail($id);
 
+
+
         // Валидация данных
         $validated = $request->validate([
             'date' => 'required|date',
@@ -139,6 +142,22 @@ class CatchController extends Controller
             'pressure' => 'nullable|integer|min:600|max:900',
             'humidity' => 'nullable|integer|min:0|max:100',
         ]);
+
+        // Удаление фото
+        if ($request->has('remove_photo') && $catch->photo) {
+            Storage::disk('public')->delete($catch->photo);
+            $validated['photo'] = null;
+        }
+
+        // Новое фото
+        $files = $request->allFiles();
+        if (isset($files['photo'])) {
+            $photo = $files['photo'];
+            if ($catch->photo) {
+                Storage::disk('public')->delete($catch->photo);
+            }
+            $validated['photo'] = $photo->store('catches', 'public');
+        }
 
         // Обновляем данные
         $catch->update($validated);
@@ -155,7 +174,7 @@ class CatchController extends Controller
         if ($period === 'month') {
             $startDate = \Carbon\Carbon::createFromDate($year, $month, 1)->startOfMonth();
             $endDate = \Carbon\Carbon::createFromDate($year, $month, 1)->endOfMonth();
-        }else {
+        } else {
             $startDate = now()->subYear();
             $endDate = now();
         }
