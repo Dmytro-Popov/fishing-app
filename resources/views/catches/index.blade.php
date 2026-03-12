@@ -13,14 +13,16 @@
         </div>
     @endif
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
+    <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
         <a href="/catches/create" class="btn">➕ {{ __('messages.add_new_catch') }}</a>
 
         {{-- Sorting buttons --}}
         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
             <span style="color: #6b7280; font-weight: 600; font-size: 14px;">{{ __('messages.sort_by') }}:</span>
 
-            <a href="/catches?sort=created_at&order=desc" class="sort-btn {{ $currentSort === 'created_at' ? 'active' : '' }}">
+            <a href="/catches?sort=created_at&order=desc"
+                class="sort-btn {{ $currentSort === 'created_at' ? 'active' : '' }}">
                 🕐 {{ __('messages.latest') }}
             </a>
             <a href="/catches?sort=date&order=desc" class="sort-btn {{ $currentSort === 'date' ? 'active' : '' }}">
@@ -44,12 +46,13 @@
     @else
         <div style="margin-top: 30px;">
             @foreach ($catches as $catch)
-                <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 15px;">
+                <div
+                    style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; margin-bottom: 15px;">
                     <div style="display: flex; justify-content: space-between; align-items: start;">
 
                         <div style="flex: 1;">
                             <h3 style="color: #2563eb; margin-bottom: 10px; font-size: 24px;">
-                                🐟 {{ $catch->species }}
+                                 {{ $catch->species }}
                             </h3>
                             <div style="color: #6b7280; font-size: 14px;">
                                 <p style="margin: 5px 0;">
@@ -59,6 +62,11 @@
                                     📍 <strong>{{ __('messages.location') }}:</strong>
                                     {{ $catch->location ?: ($catch->latitude ? $catch->latitude . ', ' . $catch->longitude : '—') }}
                                 </p>
+                                @if ($catch->weight)
+                                    <p style="margin: 5px 0;">
+                                        ⚖️ <strong>{{ __('messages.total_weight') }}:</strong> {{ $catch->weight }} kg
+                                    </p>
+                                @endif
                             </div>
                             <a href="/catches/{{ $catch->id }}"
                                 style="display: inline-block; margin-top: 12px; padding: 8px 16px; background: #2563eb; color: white; text-decoration: none; border-radius: 6px; font-size: 14px;">
@@ -72,8 +80,7 @@
                                 ✏️ {{ __('messages.edit') }}
                             </a>
                             <form action="/catches/{{ $catch->id }}" method="POST"
-                                onsubmit="return confirm('{{ __('messages.delete_confirm') }}')"
-                                style="display: inline;">
+                                onsubmit="return confirm('{{ __('messages.delete_confirm') }}')" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"

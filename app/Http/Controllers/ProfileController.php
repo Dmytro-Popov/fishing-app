@@ -32,6 +32,19 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
 
+        // Аvatar
+        $avatar = $request->file('avatar');
+        if ($avatar) {
+            if ($request->user()->avatar) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($request->user()->avatar);
+            }
+            $request->user()->avatar = $avatar->store('avatars', 'public');
+        }
+
+        // Sity and country
+        $request->user()->city = $request->input('city');
+        $request->user()->country = $request->input('country');
+
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
