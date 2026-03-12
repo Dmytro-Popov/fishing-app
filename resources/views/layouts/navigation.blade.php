@@ -16,7 +16,7 @@
                         {{ __('messages.dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="'/catches'" :active="request()->is('catches*')">
+                    <x-nav-link :href="'/catches'" :active="request()->is('catches') || request()->is('catches?*')">
                         🎣 {{ __('messages.my_catches') }}
                     </x-nav-link>
 

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class CatchController extends Controller
 {
-    // Внедрение зависимости (Dependency Injection)
+    // Dependency injection (Dependency Injection)
     protected WeatherService $weatherService;
 
     public function __construct(WeatherService $weatherService)
@@ -30,7 +30,7 @@ class CatchController extends Controller
         if (!in_array($sortBy, $allowedSorts)) $sortBy = 'created_at';
         if (!in_array($sortOrder, $allowedOrders)) $sortOrder = 'desc';
 
-        // Только уловы текущего пользователя
+        // Current user's catches only
         $catches = FishCatch::where('user_id', auth()->id())
             ->orderBy($sortBy, $sortOrder)
             ->paginate(5);
@@ -56,7 +56,7 @@ class CatchController extends Controller
     public function store(Request $request)
     {
 
-        // Валидация данных
+        // Data validation
         $validated = $request->validate([
             'date' => 'required|date',
             'location' => 'nullable|string|max:255',
@@ -79,13 +79,13 @@ class CatchController extends Controller
             return back()->withErrors(['location' => 'Please enter a location or select a point on the map.'])->withInput();
         }
 
-        // Если загружено фото — сохраняем его
+        // If a photo is uploaded, save it.
         $photo = $request->file('photo');
         if ($photo && $photo->isValid()) {
             $validated['photo'] = $photo->store('catches', 'public');
         }
 
-        // Добавляем user_id текущего пользователя
+        // Add the user_id of the current user
         $validated['user_id'] = auth()->id();
         FishCatch::create($validated);
 
@@ -123,12 +123,12 @@ class CatchController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Находим улов
+        // Finding the catch
         $catch = FishCatch::findOrFail($id);
 
 
 
-        // Валидация данных
+        // Data validation
         $validated = $request->validate([
             'date' => 'required|date',
             'location' => 'required|string|max:255',
@@ -143,13 +143,13 @@ class CatchController extends Controller
             'humidity' => 'nullable|integer|min:0|max:100',
         ]);
 
-        // Удаление фото
+        // Deleting photos
         if ($request->has('remove_photo') && $catch->photo) {
             Storage::disk('public')->delete($catch->photo);
             $validated['photo'] = null;
         }
 
-        // Новое фото
+        // New photo
         $files = $request->allFiles();
         if (isset($files['photo'])) {
             $photo = $files['photo'];
@@ -159,7 +159,7 @@ class CatchController extends Controller
             $validated['photo'] = $photo->store('catches', 'public');
         }
 
-        // Обновляем данные
+        // Updating data
         $catch->update($validated);
 
         return redirect('/catches')->with('success', 'Catch updated successfully!');
@@ -190,7 +190,7 @@ class CatchController extends Controller
                 : $catch->date->format('Y-m-d');
         })->map(fn($group) => $group->count());
 
-        // Генерируем список годов для выбора
+        // Generate a list of years to choose from
         $years = FishCatch::where('user_id', auth()->id())
             ->selectRaw('strftime("%Y", date) as year')
             ->distinct()
@@ -205,16 +205,61 @@ class CatchController extends Controller
      */
     public function destroy(string $id)
     {
-        // Находим улов по ID, если не найден — автоматически вернёт 404
+        // Find the catch by ID; if not found, it will automatically return a 404
         $catch = FishCatch::findOrFail($id);
-        // Проверяем что это улов именно этого пользователя
+        // We check that this is the catch of this particular user.
         if ($catch->user_id !== auth()->id()) {
             abort(403);
         }
-        // Удаляем запись из базы данных
+        // Deleting a record from the database
         $catch->delete();
 
-        // Редиректим на список с сообщением об успехе
+        // Redirect to the list with a success message
         return redirect('/catches')->with('success', 'Catch deleted successfully!');
+    }
+
+    public function dashboard()
+    {
+        $userId = auth()->id();
+
+        // General statistics
+        $totalCatches = FishCatch::where('user_id', $userId)->count();
+
+        // The best trophy
+        $bestTrophy = FishCatch::where('user_id', $userId)
+            ->whereNotNull('trophy_weight')
+            ->orderBy('trophy_weight', 'desc')
+            ->first();
+
+        // Favorite location
+        $topLocation = FishCatch::where('user_id', $userId)
+            ->whereNotNull('location')
+            ->selectRaw('location, COUNT(*) as count')
+            ->groupBy('location')
+            ->orderBy('count', 'desc')
+            ->first();
+
+        // Last 3 catches
+        $recentCatches = FishCatch::where('user_id', $userId)
+            ->orderBy('date', 'desc')
+            ->limit(3)
+            ->get();
+
+        // Graphics for the month
+        $chartData = FishCatch::where('user_id', $userId)
+            ->whereMonth('date', now()->month)
+            ->whereYear('date', now()->year)
+            ->orderBy('date')
+            ->get()
+            ->groupBy(fn($catch) => $catch->date->format('Y-m-d'))
+            ->map(fn($group) => $group->count());
+
+        return view('dashboard', compact(
+            'totalCatches',
+            'bestTrophy',
+            'topLocation',
+            'recentCatches',
+            'chartData'
+        ));
     }
 }
