@@ -72,4 +72,25 @@ return [
 
     'back_to_list' => 'Back to list',
     'total_weight' => 'Total Weight',
+    // Dashboard
+    'total_catches' => 'Total Catches',
+    'no_trophy_yet' => 'No trophy yet',
+    'no_location_yet' => 'No location yet',
+    'catches' => 'catches',
+    'recent_trophies' => 'Recent Trophies',
+    'no_catches_yet_dashboard' => 'No catches yet',
+    'view_all_catches' => 'View all catches',
+    'this_month' => 'This Month',
+    'no_catches_this_month' => 'No catches this month',
+    'fishing_overview' => "fishing overview",
+
+    // Profile
+    'profile_information' => 'Profile Information',
+    'profile_photo' => 'Profile Photo',
+    'city' => 'City',
+    'country' => 'Country',
+    'save' => 'Save',
+    'saved' => 'Saved.',
+    'delete_account' => 'Delete Account',
+    'delete_account_desc' => 'Once your account is deleted, all of its resources and data will be permanently deleted.',
 ];

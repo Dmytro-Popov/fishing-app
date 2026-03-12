@@ -3,8 +3,8 @@
 @section('title', __('messages.dashboard'))
 
 @section('content')
-    <h1 style="margin-bottom: 5px;">🎣 Dashboard</h1>
-    <p class="subtitle" style="margin-bottom: 30px;">{{ auth()->user()->name }}'s fishing overview</p>
+    <h1 style="margin-bottom: 5px;">🎣 {{ __('messages.dashboard') }}</h1>
+    <p class="subtitle" style="margin-bottom: 30px;">{{ auth()->user()->name }}'s {{ __('messages.fishing_overview') }}</p>
 
     {{-- STATS CARDS --}}
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px;">
@@ -12,7 +12,7 @@
         <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; text-align: center;">
             <div style="font-size: 36px; margin-bottom: 8px;">🎣</div>
             <div style="font-size: 32px; font-weight: 700; color: #2563eb;">{{ $totalCatches }}</div>
-            <div style="color: #6b7280; font-size: 14px; margin-top: 4px;">Total Catches</div>
+            <div style="color: #6b7280; font-size: 14px; margin-top: 4px;">{{ __('messages.total_catches') }}</div>
         </div>
 
         <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px; text-align: center;">
@@ -22,7 +22,7 @@
                 <div style="color: #6b7280; font-size: 14px; margin-top: 4px;">{{ $bestTrophy->trophy_species }}</div>
             @else
                 <div style="font-size: 18px; font-weight: 600; color: #6b7280;">—</div>
-                <div style="color: #6b7280; font-size: 14px; margin-top: 4px;">No trophy yet</div>
+                <div style="color: #6b7280; font-size: 14px; margin-top: 4px;">{{ __('messages.no_trophy_yet') }}</div>
             @endif
         </div>
 
@@ -30,10 +30,10 @@
             <div style="font-size: 36px; margin-bottom: 8px;">📍</div>
             @if($topLocation)
                 <div style="font-size: 18px; font-weight: 700; color: #374151;">{{ $topLocation->location }}</div>
-                <div style="color: #6b7280; font-size: 14px; margin-top: 4px;">{{ $topLocation->count }} catches</div>
+                <div style="color: #6b7280; font-size: 14px; margin-top: 4px;">{{ $topLocation->count }} {{ __('messages.catches') }}</div>
             @else
                 <div style="font-size: 18px; font-weight: 600; color: #6b7280;">—</div>
-                <div style="color: #6b7280; font-size: 14px; margin-top: 4px;">No location yet</div>
+                <div style="color: #6b7280; font-size: 14px; margin-top: 4px;">{{ __('messages.no_location_yet') }}</div>
             @endif
         </div>
 
@@ -41,11 +41,11 @@
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
 
-        {{-- RECENT CATCHES --}}
+        {{-- RECENT TROPHIES --}}
         <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px;">
-            <h3 style="color: #374151; margin-bottom: 15px;">🕐 Recent Catches</h3>
+            <h3 style="color: #374151; margin-bottom: 15px;">🏆 {{ __('messages.recent_trophies') }}</h3>
             @if($recentCatches->isEmpty())
-                <p style="color: #6b7280; text-align: center; padding: 20px 0;">No catches yet</p>
+                <p style="color: #6b7280; text-align: center; padding: 20px 0;">{{ __('messages.no_catches_yet_dashboard') }}</p>
             @else
                 @foreach($recentCatches as $catch)
                     <a href="/catches/{{ $catch->id }}" style="text-decoration: none;">
@@ -57,7 +57,9 @@
                                 <div style="width: 50px; height: 50px; background: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">🐟</div>
                             @endif
                             <div>
-                                <div style="font-weight: 600; color: #374151;">{{ $catch->species }}</div>
+                                <div style="font-weight: 600; color: #374151;">
+                                    {{ $catch->trophy_species ?: $catch->species }}
+                                </div>
                                 <div style="font-size: 13px; color: #6b7280;">{{ $catch->date->format('F d, Y') }}</div>
                                 <div style="font-size: 13px; color: #6b7280;">📍 {{ $catch->location ?: '—' }}</div>
                             </div>
@@ -65,16 +67,16 @@
                     </a>
                 @endforeach
                 <a href="/catches" style="display: block; text-align: center; margin-top: 15px; color: #2563eb; text-decoration: none; font-size: 14px;">
-                    View all catches →
+                    {{ __('messages.view_all_catches') }} →
                 </a>
             @endif
         </div>
 
         {{-- CHART --}}
         <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 20px;">
-            <h3 style="color: #374151; margin-bottom: 15px;">📊 This Month</h3>
+            <h3 style="color: #374151; margin-bottom: 15px;">📊 {{ __('messages.this_month') }}</h3>
             @if($chartData->isEmpty())
-                <p style="color: #6b7280; text-align: center; padding: 20px 0;">No catches this month</p>
+                <p style="color: #6b7280; text-align: center; padding: 20px 0;">{{ __('messages.no_catches_this_month') }}</p>
             @else
                 <canvas id="dashChart"></canvas>
             @endif
@@ -91,7 +93,7 @@
             data: {
                 labels: {!! $chartData->keys()->toJson() !!},
                 datasets: [{
-                    label: 'Catches',
+                    label: '{{ __('messages.catches') }}',
                     data: {!! $chartData->values()->toJson() !!},
                     backgroundColor: 'rgba(37, 99, 235, 0.5)',
                     borderColor: 'rgba(37, 99, 235, 1)',

@@ -1,7 +1,7 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Profile Information') }}
+            {{ __('messages.profile_information') }}
         </h2>
         <p class="mt-1 text-sm text-gray-600">
             {{ __("Update your account's profile information and email address.") }}
@@ -18,7 +18,7 @@
 
         {{-- AVATAR --}}
         <div>
-            <x-input-label :value="__('Profile Photo')" />
+            <x-input-label :value="__('messages.profile_photo')" />
             <div style="display: flex; align-items: center; gap: 15px; margin-top: 8px;">
                 @if($user->avatar)
                     <img src="{{ asset('storage/' . $user->avatar) }}"
@@ -65,7 +65,7 @@
 
         {{-- CITY --}}
         <div>
-            <x-input-label for="city" :value="__('City')" />
+            <x-input-label for="city" :value="__('messages.city')" />
             <x-text-input id="city" name="city" type="text" class="mt-1 block w-full"
                 :value="old('city', $user->city)" autocomplete="city" />
             <x-input-error class="mt-2" :messages="$errors->get('city')" />
@@ -73,18 +73,18 @@
 
         {{-- COUNTRY --}}
         <div>
-            <x-input-label for="country" :value="__('Country')" />
+            <x-input-label for="country" :value="__('messages.country')" />
             <x-text-input id="country" name="country" type="text" class="mt-1 block w-full"
                 :value="old('country', $user->country)" autocomplete="country" />
             <x-input-error class="mt-2" :messages="$errors->get('country')" />
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>{{ __('messages.save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600">{{ __('Saved.') }}</p>
+                    class="text-sm text-gray-600">{{ __('messages.saved') }}</p>
             @endif
         </div>
     </form>

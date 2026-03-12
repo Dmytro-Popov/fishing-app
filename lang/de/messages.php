@@ -72,4 +72,26 @@ return [
 
     'back_to_list' => 'Zurück zur Liste',
     'total_weight' => 'Gesamtgewicht',
+
+    // Dashboard
+    'total_catches' => 'Gesamtfänge',
+    'no_trophy_yet' => 'Noch keine Trophäe',
+    'no_location_yet' => 'Noch kein Ort',
+    'catches' => 'Fänge',
+    'recent_trophies' => 'Letzte Trophäen',
+    'no_catches_yet_dashboard' => 'Noch keine Fänge',
+    'view_all_catches' => 'Alle Fänge anzeigen',
+    'this_month' => 'Diesen Monat',
+    'no_catches_this_month' => 'Keine Fänge diesen Monat',
+    'fishing_overview' => "Angelübersicht",
+
+    // Profile
+    'profile_information' => 'Profilinformationen',
+    'profile_photo' => 'Profilfoto',
+    'city' => 'Stadt',
+    'country' => 'Land',
+    'save' => 'Speichern',
+    'saved' => 'Gespeichert.',
+    'delete_account' => 'Konto löschen',
+    'delete_account_desc' => 'Sobald Ihr Konto gelöscht wird, werden alle Ressourcen und Daten dauerhaft gelöscht.',
 ];
